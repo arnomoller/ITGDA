@@ -1,0 +1,14 @@
+# Pyramid.py
+
+vertices = [
+    [0, 1, 0],       # Top
+    [1, -1, 1],      # Front-right
+    [-1, -1, 1],     # Front-left
+    [-1, -1, -1],    # Back-left
+    [1, -1, -1]      # Back-right
+]
+
+edges = [
+    (0, 1), (0, 2), (0, 3), (0, 4),  # Top to base edges
+    (1, 2), (2, 3), (3, 4), (4, 1)   # Base edges
+]

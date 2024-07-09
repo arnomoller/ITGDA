@@ -1,0 +1,59 @@
+main.py
+
+import pygame
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+from Cube import vertices as cube_vertices, edges as cube_edges
+from Pyramid import vertices as pyramid_vertices, edges as pyramid_edges
+from Prism import vertices as prism_vertices, edges as prism_edges
+
+def draw_object(vertices, edges):
+    glBegin(GL_LINES)
+    for edge in edges:
+        for vertex in edge:
+            glVertex3fv(vertices[vertex])
+    glEnd()
+
+def main():
+    pygame.init()
+    display = (800, 600)
+    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
+    glTranslatef(0.0, 0.0, -10)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        # Draw Cube
+        glPushMatrix()
+        glTranslatef(-2, 0, 0)  # Move the cube to the left
+        glRotatef(pygame.time.get_ticks() * 0.05, 1, 1, 1)
+        draw_object(cube_vertices, cube_edges)
+        glPopMatrix()
+
+        # Draw Pyramid
+        glPushMatrix()
+        glTranslatef(2, 0, 0)  # Move the pyramid to the right
+        glRotatef(pygame.time.get_ticks() * 0.05, 1, 1, 1)
+        draw_object(pyramid_vertices, pyramid_edges)
+        glPopMatrix()
+
+        # Draw Prism
+        glPushMatrix()
+        glTranslatef(0, 2, 0)  # Move the prism upwards
+        glRotatef(pygame.time.get_ticks() * 0.05, 1, 1, 1)
+        draw_object(prism_vertices, prism_edges)
+        glPopMatrix()
+
+        pygame.display.flip()
+        pygame.time.wait(10)
+
+if __name__ == "__main__":
+    main()
